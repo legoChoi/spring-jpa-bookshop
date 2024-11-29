@@ -26,10 +26,17 @@ public class Category {
     )
     private List<Item> items = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Category parent;
 
     @OneToMany(mappedBy = "parent") // 같은 엔티티에 대해서 연관관계 걸기
     private List<Category> child = new ArrayList<>();
+
+    // == 연관관계 메소드 == // 양방향일 때 씀 공부하자
+    public void addChildCategory(Category child) {
+        this.child.add(child);
+        child.setParent(this);
+    }
+
 }
